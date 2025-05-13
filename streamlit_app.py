@@ -32,6 +32,7 @@ filtered_df["enter_date"] = filtered_df["enter_date"].dt.strftime("%Y-%m-%d")
 st.dataframe(
     filtered_df.reset_index(drop=True),
     use_container_width=True,
+    height=800,  # Increase this for more vertical room
     column_config={
         "Name": st.column_config.Column("Player Name"),
         "enter_date": st.column_config.Column("Date Entered"),
