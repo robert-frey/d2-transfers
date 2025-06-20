@@ -14,11 +14,13 @@ def load_sheet(sheet_name):
 in_portal_df = load_sheet("In Portal")
 d2_commits_df = load_sheet("D2 Commits")
 leaving_d2_df = load_sheet("Leaving D2")
+d2_bat_stats = load_sheet("D2 Commits Batting Stats")
+d2_pit_stats = load_sheet("D2 Commits Pitching Stats")
 
 # --- TAB UI ---
 st.title("D2 Transfer Portal Tracker")
 
-tab1, tab2, tab3 = st.tabs(["In Portal", "D2 Commits", "Leaving D2"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["In Portal", "D2 Commits", "D2 Commits Batting Stats","D2 Commits Pitching Stats","Leaving D2"])
 
 # --- TAB 1: IN PORTAL ---
 with tab1:
@@ -81,8 +83,8 @@ with tab2:
         hide_index=True
     )
 
-# --- TAB 3: LEAVING D2 ---
-with tab3:
+# --- TAB 5: LEAVING D2 ---
+with tab5:
     st.header("Players Leaving D2")
 
     # Convert 'Source' column to hyperlinks
@@ -93,4 +95,52 @@ with tab3:
     st.write(
         leaving_d2_df.to_html(escape=False, index=False),
         unsafe_allow_html=True
+    )
+# --- TAB 3: Batting Stats ---
+with tab3:
+    st.header("D2 Commits Batting Stats")
+
+    st.dataframe(
+        d2_bat_stats,
+        use_container_width=True,
+        height=700,
+        column_config={
+            "Name": st.column_config.Column("Player Name"),
+            "Prev School": st.column_config.Column("Previous School"),
+            "New School": st.column_config.Column("New School"),
+            "Level": st.column_config.Column("Level"),
+            "Pos": st.column_config.Column("Position"),
+            "PA": st.column_config.Column("PA"),
+            "BA": st.column_config.Column("BA"),
+            "OPS": st.column_config.Column("OPS"),
+            "HR": st.column_config.Column("HR"),
+            "RBI": st.column_config.Column("RBI"),
+            "SB": st.column_config.Column("SB"),
+            "FLD": st.column_config.Column("FLD"),
+        },
+        hide_index=True
+    )
+# --- TAB 4: Pitching Stats ---
+with tab4:
+    st.header("D2 Commits Pitching Stats")
+
+    st.dataframe(
+        d2_pit_stats,
+        use_container_width=True,
+        height=700,
+        column_config={
+            "Name": st.column_config.Column("Player Name"),
+            "Prev School": st.column_config.Column("Previous School"),
+            "New School": st.column_config.Column("New School"),
+            "Level": st.column_config.Column("Level"),
+            "Pos": st.column_config.Column("Position"),
+            "IP": st.column_config.Column("IP"),
+            "ERA": st.column_config.Column("ERA"),
+            "WHIP": st.column_config.Column("WHIP"),
+            "W": st.column_config.Column("W"),
+            "L": st.column_config.Column("L"),
+            "SO": st.column_config.Column("SO"),
+            "KBB": st.column_config.Column("KBB"),
+        },
+        hide_index=True
     )
