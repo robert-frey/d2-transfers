@@ -68,8 +68,10 @@ with tab1:
 with tab2:
     st.header("D2 Commits")
 
+    sorted_df = d2_commits_df.sort_values(by="New School", ascending=True)
+
     st.dataframe(
-        d2_commits_df.iloc[:, 0:5],
+        sorted_df.iloc[:, 0:5],
         use_container_width=True,
         height=700,
         column_config={
@@ -87,8 +89,11 @@ with tab2:
 with tab5:
     st.header("Players Leaving D2")
 
+    sort_df = leaving_d2_df.sort_values(by="Prev School", ascending=True)
+
+
     st.dataframe(
-        d2_commits_df.iloc[:, 0:5],
+        sort_df.iloc[:, 0:5],
         use_container_width=True,
         height=700,
         column_config={
@@ -103,8 +108,11 @@ with tab5:
 with tab3:
     st.header("D2 Commits Batting Stats")
 
+    bat_sort_df = d2_bat_stats.sort_values(by="New School", ascending=True)
+
+
     st.dataframe(
-        d2_bat_stats,
+        bat_sort_df,
         use_container_width=True,
         height=700,
         column_config={
@@ -127,8 +135,11 @@ with tab3:
 with tab4:
     st.header("D2 Commits Pitching Stats")
 
+    pit_sort_df = d2_pit_stats.sort_values(by="New School", ascending=True)
+
+
     st.dataframe(
-        d2_pit_stats,
+        pit_sort_df,
         use_container_width=True,
         height=700,
         column_config={
