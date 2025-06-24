@@ -108,9 +108,22 @@ with tab5:
 with tab3:
     st.header("D2 Commits Batting Stats")
 
-    bat_sort_df = d2_bat_stats.sort_values(by="New School", ascending=True)
+    # Unique New School values for the filter
+    school_options = sorted(d2_bat_stats["New School"].dropna().unique())
 
+    # Sidebar or inline filter
+    selected_schools = st.multiselect("Filter by New School", options=school_options)
 
+    # Filter the DataFrame based on selection
+    if selected_schools:
+        filtered_df = d2_bat_stats[d2_bat_stats["New School"].isin(selected_schools)]
+    else:
+        filtered_df = d2_bat_stats
+
+    # Sort the filtered DataFrame
+    bat_sort_df = filtered_df.sort_values(by="New School", ascending=True)
+
+    # Display the table
     st.dataframe(
         bat_sort_df,
         use_container_width=True,
@@ -131,13 +144,27 @@ with tab3:
         },
         hide_index=True
     )
+
 # --- TAB 4: Pitching Stats ---
 with tab4:
     st.header("D2 Commits Pitching Stats")
 
-    pit_sort_df = d2_pit_stats.sort_values(by="New School", ascending=True)
+    # Create list of unique New School values for filtering
+    school_options = sorted(d2_pit_stats["New School"].dropna().unique())
 
+    # Multiselect filter for New School
+    selected_schools = st.multiselect("Filter by New School", options=school_options)
 
+    # Filter the DataFrame based on selected schools
+    if selected_schools:
+        filtered_df = d2_pit_stats[d2_pit_stats["New School"].isin(selected_schools)]
+    else:
+        filtered_df = d2_pit_stats
+
+    # Sort the filtered DataFrame
+    pit_sort_df = filtered_df.sort_values(by="New School", ascending=True)
+
+    # Display the table
     st.dataframe(
         pit_sort_df,
         use_container_width=True,
