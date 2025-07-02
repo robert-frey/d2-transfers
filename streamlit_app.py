@@ -16,11 +16,12 @@ d2_commits_df = load_sheet("D2 Commits")
 leaving_d2_df = load_sheet("Leaving D2")
 d2_bat_stats = load_sheet("D2 Commits Batting Stats")
 d2_pit_stats = load_sheet("D2 Commits Pitching Stats")
+team_commits = load_sheet("Team Commits")
 
 # --- TAB UI ---
 st.title("D2 Transfer Portal Tracker")
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["In Portal", "D2 Commits", "D2 Commits Batting Stats","D2 Commits Pitching Stats","Leaving D2"])
+tab1, tab6, tab2, tab3, tab4, tab5, = st.tabs(["In Portal", "D2 Team Commits","D2 Commits", "D2 Commits Batting Stats","D2 Commits Pitching Stats","Leaving D2"])
 
 # --- TAB 1: IN PORTAL ---
 with tab1:
@@ -60,6 +61,26 @@ with tab1:
             "Name": st.column_config.Column("Player Name"),
             "enter_date": st.column_config.Column("Date Entered"),
             "previous_school": st.column_config.Column("Previous School")
+        },
+        hide_index=True
+    )
+
+# --- TAB 2: D2 COMMITS ---
+with tab6:
+    st.header("D2 Team Commits")
+
+    sorted_df = team_commits.sort_values(by="Total", ascending=False)
+
+    st.dataframe(
+        sorted_df,
+        use_container_width=True,
+        height=700,
+        column_config={
+            "School": st.column_config.Column("School"),
+            "Total": st.column_config.Column("Total"),
+            "Pitcher": st.column_config.Column("Pitcher"),
+            "Position Player": st.column_config.Column("Position Player"),
+            "Two-Way Player": st.column_config.Column("Two-Way Player")
         },
         hide_index=True
     )
