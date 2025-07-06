@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from st_aggrid import AgGrid, GridOptionsBuilder
 
 # Google Sheet info
 SHEET_ID = "1W4kSomg1hRHVAgperK4FtedsgCmeYFJx0Iw_BoKe3Jc"
@@ -31,99 +32,94 @@ with tab1:
     in_portal_df["enter_date"] = pd.to_datetime(in_portal_df["enter_date"], errors="coerce")
     in_portal_df = in_portal_df.sort_values("enter_date", ascending=False)
     
-    # Sidebar filters
-    with st.sidebar:
-        st.subheader("🔍 Filter Players (In Portal)")
-        date_range = st.date_input("Enter Date Range", [])
-        school_filter = st.text_input("Previous School Contains", key="portal_school")
-
     filtered_df = in_portal_df.copy()
-    
-    if date_range and len(date_range) == 2:
-        start, end = date_range
-        filtered_df = filtered_df[
-            (filtered_df["enter_date"] >= pd.Timestamp(start)) & 
-            (filtered_df["enter_date"] <= pd.Timestamp(end))
-        ]
-    
-    if school_filter:
-        filtered_df = filtered_df[
-            filtered_df["previous_school"].str.contains(school_filter, case=False, na=False)
-        ]
-
     filtered_df["enter_date"] = filtered_df["enter_date"].dt.strftime("%Y-%m-%d")
 
-    st.dataframe(
-        filtered_df.reset_index(drop=True),
-        use_container_width=True,
-        height=700,
-        column_config={
-            "Name": st.column_config.Column("Player Name"),
-            "enter_date": st.column_config.Column("Date Entered"),
-            "previous_school": st.column_config.Column("Previous School")
+    gb = GridOptionsBuilder.from_dataframe(filtered_df)
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
+    grid_options = gb.build()
+
+    AgGrid(filtered_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+           custom_css={
+        ".ag-root-wrapper": {
+            "background-color": "#000000",
+            "color": "#ffffff"
         },
-        hide_index=True
+        ".ag-header": {
+            "background-color": "#000000",
+            "color": "#ffffff" 
+        }
+    }
     )
 
-# --- TAB 2: D2 COMMITS ---
+# --- TAB 2: D2 teAM COMMITS ---
 with tab6:
     st.header("D2 Team Commits")
 
     sorted_df = team_commits.sort_values(by="Total", ascending=False)
 
-    st.dataframe(
-        sorted_df,
-        use_container_width=True,
-        height=700,
-        column_config={
-            "School": st.column_config.Column("School"),
-            "Total": st.column_config.Column("Total"),
-            "Pitcher": st.column_config.Column("Pitcher"),
-            "Position Player": st.column_config.Column("Position Player"),
-            "Two-Way Player": st.column_config.Column("Two-Way Player")
+    gb = GridOptionsBuilder.from_dataframe(sorted_df)
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
+    grid_options = gb.build()
+
+    AgGrid(sorted_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+           custom_css={
+        ".ag-root-wrapper": {
+            "background-color": "#000000",
+            "color": "#ffffff"
         },
-        hide_index=True
+        ".ag-header": {
+            "background-color": "#000000",
+            "color": "#ffffff" 
+        }
+    }
     )
 
 # --- TAB 2: D2 COMMITS ---
 with tab2:
     st.header("D2 Commits")
 
-    sorted_df = d2_commits_df.sort_values(by="New School", ascending=True)
+    sorted_df = d2_commits_df.sort_values(by="New School", ascending=True).iloc[:, 0:5]
 
-    st.dataframe(
-        sorted_df.iloc[:, 0:5],
-        use_container_width=True,
-        height=700,
-        column_config={
-            "Name": st.column_config.Column("Player Name"),
-            "Prev School": st.column_config.Column("Previous School"),
-            "New School": st.column_config.Column("New School"),
-            "Level": st.column_config.Column("Level"),
-            "Pos": st.column_config.Column("Position"),
-            "Source": st.column_config.Column("Source")
+    gb = GridOptionsBuilder.from_dataframe(sorted_df)
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
+    grid_options = gb.build()
+
+    AgGrid(sorted_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+           custom_css={
+        ".ag-root-wrapper": {
+            "background-color": "#000000",
+            "color": "#ffffff"
         },
-        hide_index=True
+        ".ag-header": {
+            "background-color": "#000000",
+            "color": "#ffffff" 
+        }
+    }
     )
 
 # --- TAB 5: LEAVING D2 ---
 with tab5:
     st.header("Players Leaving D2")
 
-    sort_df = leaving_d2_df.sort_values(by="Prev School", ascending=True)
+    sort_df = leaving_d2_df.sort_values(by="Prev School", ascending=True).iloc[:, 0:5]
 
 
-    st.dataframe(
-        sort_df.iloc[:, 0:5],
-        use_container_width=True,
-        height=700,
-        column_config={
-            "Name": st.column_config.Column("Player Name"),
-            "Prev School": st.column_config.Column("Previous School"),
-            "New School": st.column_config.Column("New School"),
-            "Level": st.column_config.Column("Level"),
-            "Pos": st.column_config.Column("Position")        },
-        hide_index=True
+    gb = GridOptionsBuilder.from_dataframe(sort_df)
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
+    grid_options = gb.build()
+
+    AgGrid(sort_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+           custom_css={
+        ".ag-root-wrapper": {
+            "background-color": "#000000",
+            "color": "#ffffff"
+        },
+        ".ag-header": {
+            "background-color": "#000000",
+            "color": "#ffffff" 
+        }
+    }
     )
 # --- TAB 3: Batting Stats ---
 with tab3:
@@ -145,25 +141,21 @@ with tab3:
     bat_sort_df = filtered_df.sort_values(by="New School", ascending=True)
 
     # Display the table
-    st.dataframe(
-        bat_sort_df,
-        use_container_width=True,
-        height=700,
-        column_config={
-            "Name": st.column_config.Column("Player Name"),
-            "Prev School": st.column_config.Column("Previous School"),
-            "New School": st.column_config.Column("New School"),
-            "Level": st.column_config.Column("Level"),
-            "Pos": st.column_config.Column("Position"),
-            "PA": st.column_config.Column("PA"),
-            "BA": st.column_config.Column("BA"),
-            "OPS": st.column_config.Column("OPS"),
-            "HR": st.column_config.Column("HR"),
-            "RBI": st.column_config.Column("RBI"),
-            "SB": st.column_config.Column("SB"),
-            "FLD": st.column_config.Column("FLD"),
+    gb = GridOptionsBuilder.from_dataframe(bat_sort_df)
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
+    grid_options = gb.build()
+
+    AgGrid(bat_sort_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+           custom_css={
+        ".ag-root-wrapper": {
+            "background-color": "#000000",
+            "color": "#ffffff"
         },
-        hide_index=True
+        ".ag-header": {
+            "background-color": "#000000",
+            "color": "#ffffff" 
+        }
+    }
     )
 
 # --- TAB 4: Pitching Stats ---
@@ -185,24 +177,19 @@ with tab4:
     # Sort the filtered DataFrame
     pit_sort_df = filtered_df.sort_values(by="New School", ascending=True)
 
-    # Display the table
-    st.dataframe(
-        pit_sort_df,
-        use_container_width=True,
-        height=700,
-        column_config={
-            "Name": st.column_config.Column("Player Name"),
-            "Prev School": st.column_config.Column("Previous School"),
-            "New School": st.column_config.Column("New School"),
-            "Level": st.column_config.Column("Level"),
-            "Pos": st.column_config.Column("Position"),
-            "IP": st.column_config.Column("IP"),
-            "ERA": st.column_config.Column("ERA"),
-            "WHIP": st.column_config.Column("WHIP"),
-            "W": st.column_config.Column("W"),
-            "L": st.column_config.Column("L"),
-            "SO": st.column_config.Column("SO"),
-            "KBB": st.column_config.Column("KBB"),
+    gb = GridOptionsBuilder.from_dataframe(pit_sort_df)
+    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
+    grid_options = gb.build()
+
+    AgGrid(pit_sort_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+           custom_css={
+        ".ag-root-wrapper": {
+            "background-color": "#000000",
+            "color": "#ffffff"
         },
-        hide_index=True
+        ".ag-header": {
+            "background-color": "#000000",
+            "color": "#ffffff" 
+        }
+    }
     )
