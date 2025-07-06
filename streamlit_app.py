@@ -39,7 +39,7 @@ with tab1:
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
     grid_options = gb.build()
 
-    AgGrid(filtered_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+    AgGrid(filtered_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=True,
            custom_css={
         ".ag-root-wrapper": {
             "background-color": "#000000",
@@ -62,7 +62,7 @@ with tab6:
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
     grid_options = gb.build()
 
-    AgGrid(sorted_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+    AgGrid(sorted_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=True,
            custom_css={
         ".ag-root-wrapper": {
             "background-color": "#000000",
@@ -85,7 +85,7 @@ with tab2:
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
     grid_options = gb.build()
 
-    AgGrid(sorted_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+    AgGrid(sorted_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=True,
            custom_css={
         ".ag-root-wrapper": {
             "background-color": "#000000",
@@ -109,7 +109,7 @@ with tab5:
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
     grid_options = gb.build()
 
-    AgGrid(sort_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+    AgGrid(sort_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=True,
            custom_css={
         ".ag-root-wrapper": {
             "background-color": "#000000",
@@ -145,7 +145,7 @@ with tab3:
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
     grid_options = gb.build()
 
-    AgGrid(bat_sort_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+    AgGrid(bat_sort_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=True,
            custom_css={
         ".ag-root-wrapper": {
             "background-color": "#000000",
@@ -181,7 +181,7 @@ with tab4:
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
     grid_options = gb.build()
 
-    AgGrid(pit_sort_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=False,
+    AgGrid(pit_sort_df, gridOptions=grid_options, height=600, fit_columns_on_grid_load=True,
            custom_css={
         ".ag-root-wrapper": {
             "background-color": "#000000",
