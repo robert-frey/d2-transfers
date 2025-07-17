@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from st_aggrid import AgGrid, GridOptionsBuilder
 
+
 # Google Sheet info
 SHEET_ID = "1W4kSomg1hRHVAgperK4FtedsgCmeYFJx0Iw_BoKe3Jc"
 BASE_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet="
@@ -79,7 +80,19 @@ with tab6:
 with tab2:
     st.header("D2 Commits")
 
-    sorted_df = d2_commits_df.sort_values(by="New School", ascending=True).iloc[:, 0:5]
+    school_options = sorted(d2_commits_df["New School"].dropna().unique())
+    school_options.insert(0, "All") # Add 'All' as the first option
+
+# Selectbox for filtering
+    selected_school = st.selectbox(label="Filter by New School", options=school_options)
+
+# Filter the DataFrame based on selection
+    if selected_school == "All":
+        filtered_df = d2_commits_df
+    else:
+        filtered_df = d2_commits_df[d2_commits_df["New School"] == selected_school]
+
+    sorted_df = filtered_df.sort_values(by="New School", ascending=True).iloc[:, 0:5]
 
     gb = GridOptionsBuilder.from_dataframe(sorted_df)
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
